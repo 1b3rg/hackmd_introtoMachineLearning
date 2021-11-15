@@ -5,12 +5,12 @@
 
 Decision Tree
 
-capturing patterns from data is called fitting or training the model
-the data used to train the model is called training data
+capturing patterns from data is called fitting or training the model; the data used to train the model is called training data
+<p>&nbsp;</p>
 
 **Pandas**
 
-Pandas library - a tool used by data scientists for exploring and manipulating data, abbrev. as pd
+Pandas library - a tool used by data scientists for exploring and manipulating data, abbreviated as pd
 
 DataFrame - holds the type of data you might think of as a table
 
@@ -33,13 +33,14 @@ to drop variables with missing data use dropna e.g. `home_data.dropna(axis=0)`
 
 *Aside; there is also a Pandas course on kaggle.com*
 
-There are many ways to select a subset of your data. ..two approaches:
+There are many ways to select a subset of your data. ..in this example we use two approaches:
 1. Dot-notation, which we use to select the "prediction target"
 2. Selecting with a column list, which we use to select the "features"
 
-You can extract a column or variable that you want to predict with dot-notation - this is called the prediction target, and by convention also called y e.g. `y = home_data.Price`
+You can extract a column or variable that you want to predict with dot-notation - this is called the prediction target, and by convention is also called y e.g. `y = home_data.Price`
 
 Columns input into our model are called "features" and are used to make predictions e.g. `home_features = ['Rooms', 'Bathroom', 'Landsize']` - by convention this data is called X e.g. `X = home_data[home_features]`
+<p>&nbsp;</p>
 
 **Building your model**
 
@@ -55,7 +56,7 @@ The steps to building and using a model are:
 ```
 from sklearn.tree import DecisionTreeRegressor
 
-# Define model. Specify a number for random_state to ensure same results each run
+# Define model; specify a number for random_state to ensure same results each run
 home_model = DecisionTreeRegressor(random_state=1)
 
 # Fit model
@@ -68,6 +69,7 @@ print(X.head())
 print("The predictions are")
 print(home_model.predict(X.head()))
 ```
+<p>&nbsp;</p>
 
 **Model Validation**
 
@@ -105,5 +107,27 @@ home_model.fit(train_X, train_y)
 val_predictions = home_model.predict(val_X)
 
 print(mean_absolute_error(val_y, val_predictions))
+```
+<p>&nbsp;</p>
+
+**Underfitting and Overfitting**
+
+Overfitting - where a model matches the training data almost perfectly but does poorly in validation and other new data
+
+Underfitting - where a model fails to capture important distinctions and patterns in the data, so it performs poorly even in training data
+<p>&nbsp;</p>
+
+**Random Forests**
+
+Random forest - the random forest uses many trees, and it makes a prediction by averaging the predictions of each component tree; it generally has much better predictive accuracy than a single decision tree
+
+```
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error
+
+forest_model = RandomForestRegressor(random_state=1)
+forest_model.fit(train_X, train_y)
+home_preds = forest_model.predict(val_X)
+print(mean_absolute_error(home_preds, val_y))
 ```
 
